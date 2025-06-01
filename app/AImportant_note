@@ -1,0 +1,11 @@
+insall the following to cmd(bash)
+
+composer require laravel/sanctum
+composer require pusher/pusher-php-server
+composer require symfony/process
+composer require guzzlehttp/guzzle
+composer require intervention/image
+
+npm install
+npm install pusher-js
+npm install axios
