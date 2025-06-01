@@ -1,29 +1,36 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 // use Inertia\Inertia; // Only uncomment if you are actively using Inertia.js
 use App\Http\Controllers\ConversionController;
-use App\Http\Controllers\DashboardController;
 
 
 // --- PUBLIC ROUTES (No Authentication Required) ---
 
 // Home Page (handled by ConversionController index, assuming it renders a Blade view)
 // This replaces your duplicate root route and the Inertia Welcome page if not using Inertia.
-Route::get('/', [ConversionController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('landing_page'); // Main landing page
+});
 
-// Landing Page (uses a direct Blade view)
-Route::get('/landing', function () {
-    return view('landing_page');
-})->name('landing'); // Added a name for consistency
+Route::get('/conversions', [ConversionController::class, 'index'])->name('conversions.index');
+Route::post('/conversions', [ConversionController::class, 'store'])->name('conversions.store');
+Route::get('/conversions/{conversion}', [ConversionController::class, 'show'])->name('conversions.show');
+Route::get('/conversions/{conversion}/download', [ConversionController::class, 'download'])->name('conversions.download');
+Route::delete('/conversions/{conversion}', [ConversionController::class, 'destroy'])->name('conversions.destroy');
 
-// Converter Page (uses a direct Blade view)
-Route::get('/converter', function () {
-    return view('converter');
-})->name('converter'); // Added a name for consistency
+// External links or pages
+Route::get('/facebook', function () {
+    return view('facebook'); // Facebook-related page
+})->name('facebook');
 
+Route::get('/youtube', function () {
+    return view('youtube'); // YouTube-related page
+})->name('youtube');
+
+Route::get('/tiktok', function () {
+    return view('tiktok'); // TikTok-related page
+})->name('tiktok');
 
 // --- AUTHENTICATION ROUTES (Provided by Laravel Breeze/Jetstream) ---
 // This line correctly includes the default authentication routes (login, register, forgot password, etc.)
@@ -35,12 +42,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
     // This replaces your duplicate dashboard route.
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Routes (consolidated)
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Conversion Management (CRUD, excluding create/edit views as they might be handled differently or not needed)
     Route::resource('conversions', ConversionController::class)->except(['create', 'edit']);

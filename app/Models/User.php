@@ -47,13 +47,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function conversions(): HasMany
+     public function conversions(): HasMany
     {
-        return $this->hasMany(Conversion::class);
+        return $this->hasMany(Conversion::class, 'user_id');
     }
+
 
     public function downloadHistory(): HasMany
     {
         return $this->hasMany(DownloadHistory::class);
     }
+
+    
+
+
 }

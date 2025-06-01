@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessConversion;
 use App\Http\Requests\ConversionRequest;
 use App\Jobs\DownloadFromUrl;
-use App\Jobs\ProcessConversion;
 use App\Models\Conversion;
 use App\Models\User; // <-- Added this import
 use Illuminate\Http\JsonResponse;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ConversionController extends Controller
 {
@@ -40,6 +41,30 @@ class ConversionController extends Controller
 
         return view('conversions.index', compact('conversions'));
     }
+
+    public function showFacebookConversions()
+{
+    $user = Auth::user();
+    $conversions = $user ? $user->conversions()->where('source_type', 'facebook')->latest()->paginate(10) : collect();
+
+    return view('facebook', ['conversions' => $conversions]);
+}
+
+public function showTikTokConversions()
+{
+    $user = Auth::user();
+    $conversions = $user ? $user->conversions()->where('source_type', 'tiktok')->latest()->paginate(10) : collect();
+
+    return view('tiktok', ['conversions' => $conversions]);
+}
+
+public function showYouTubeConversions()
+{
+    $user = Auth::user();
+    $conversions = $user ? $user->conversions()->where('source_type', 'youtube')->latest()->paginate(10) : collect();
+
+    return view('youtube', ['conversions' => $conversions]);
+}
 
     /**
      * Store a newly created conversion in storage.
