@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Events;
 
 use App\Events\ConversionCompleted;
 use App\Events\ConversionFailed;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+
 
 class ProcessConversion implements ShouldQueue
 {

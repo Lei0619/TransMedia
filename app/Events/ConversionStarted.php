@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Events; // <--- YOU NEED THIS LINE HERE
+
 use App\Models\Conversion;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
